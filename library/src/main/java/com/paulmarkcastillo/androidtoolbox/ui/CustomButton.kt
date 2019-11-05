@@ -6,7 +6,6 @@ import android.content.res.ColorStateList
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton
@@ -17,7 +16,6 @@ import com.paulmarkcastillo.androidtoolbox.converters.DisplayUnitConverter
 class CustomButton(context: Context, attrs: AttributeSet?) : MaterialButton(context, attrs) {
     private lateinit var mainTextPaint: Paint
     private lateinit var subTextPaint: Paint
-    private val strokeWidth = 2f
     private var radius = 8f
     private var primaryColor = 0
     private var secondaryColor = 0
@@ -92,7 +90,7 @@ class CustomButton(context: Context, attrs: AttributeSet?) : MaterialButton(cont
             backgroundTintList = ColorStateList.valueOf(primaryColor)
         } else {
             strokeColor = ColorStateList.valueOf(primaryColor)
-            setStrokeWidth(3)
+            strokeWidth = 3
             backgroundTintList = ColorStateList.valueOf(Color.parseColor("#00FFFFFF"))
         }
     }
