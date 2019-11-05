@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import androidx.core.content.ContextCompat
@@ -16,7 +15,6 @@ import com.paulmarkcastillo.androidtoolbox.converters.DisplayUnitConverter
 class CustomButton(context: Context, attrs: AttributeSet?) : MaterialButton(context, attrs) {
     private lateinit var mainTextPaint: Paint
     private lateinit var subTextPaint: Paint
-    private var radius = 8f
     private var primaryColor = 0
     private var secondaryColor = 0
     private var highlighted: Boolean
@@ -46,7 +44,10 @@ class CustomButton(context: Context, attrs: AttributeSet?) : MaterialButton(cont
 
             roundedCorners = getBoolean(R.styleable.CustomButton_roundedCorners, true)
 
-            radius = getDimension(R.styleable.CustomButton_cornerRadius, convertDpToPx(radius))
+            if (roundedCorners) {
+                cornerRadius =
+                    getDimension(R.styleable.CustomButton_cornerRadius, 8f).toInt()
+            }
 
             if (highlighted) {
                 setTextColor(secondaryColor)
