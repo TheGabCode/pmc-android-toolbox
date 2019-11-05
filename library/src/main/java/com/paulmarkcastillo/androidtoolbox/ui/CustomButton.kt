@@ -91,7 +91,7 @@ class CustomButton(context: Context, attrs: AttributeSet?) : MaterialButton(cont
         } else {
             strokeColor = ColorStateList.valueOf(primaryColor)
             strokeWidth = 3
-            backgroundTintList = ColorStateList.valueOf(Color.parseColor("#00FFFFFF"))
+            backgroundTintList = ColorStateList.valueOf(secondaryColor)
         }
     }
 
