@@ -9,5 +9,6 @@
         <attr name="highlighted" format="boolean" />
         <attr name="roundedCorners" format="boolean" />
         <attr name="cornerRadius" format="dimension" />
+        <attr name="icon" format="reference" />
     </declare-styleable>
 </resources>

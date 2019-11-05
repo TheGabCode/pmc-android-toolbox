@@ -2,17 +2,19 @@ package com.paulmarkcastillo.androidtoolbox.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
-import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
+import com.google.android.material.button.MaterialButton
 import com.paulmarkcastillo.androidtoolbox.R
 import com.paulmarkcastillo.androidtoolbox.converters.DisplayUnitConverter
 
 @SuppressLint("AppCompatCustomView")
-class CustomButton(context: Context, attrs: AttributeSet?) : AppCompatButton(context, attrs) {
+class CustomButton(context: Context, attrs: AttributeSet?) : MaterialButton(context, attrs) {
     private lateinit var mainTextPaint: Paint
     private lateinit var subTextPaint: Paint
     private val strokeWidth = 2f
@@ -61,7 +63,8 @@ class CustomButton(context: Context, attrs: AttributeSet?) : AppCompatButton(con
             subTextSize =
                 getDimension(R.styleable.CustomButton_subTextSize, (textSize * .72).toFloat())
 
-
+            icon = getDrawable(R.styleable.CustomButton_icon)
+            iconGravity = ICON_GRAVITY_TEXT_START
         }
 
         context.obtainStyledAttributes(attrs, intArrayOf(android.R.attr.textAllCaps)).apply {
@@ -84,7 +87,14 @@ class CustomButton(context: Context, attrs: AttributeSet?) : AppCompatButton(con
             subTextPaint.textAlign = Paint.Align.CENTER
             subTextPaint.isAntiAlias = true
         }
-        background = createShape()
+
+        if (highlighted) {
+            backgroundTintList = ColorStateList.valueOf(primaryColor)
+        } else {
+            strokeColor = ColorStateList.valueOf(primaryColor)
+            setStrokeWidth(3)
+            backgroundTintList = ColorStateList.valueOf(Color.parseColor("#00FFFFFF"))
+        }
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -107,20 +117,6 @@ class CustomButton(context: Context, attrs: AttributeSet?) : AppCompatButton(con
         } else {
             super.onDraw(canvas)
         }
-    }
-
-    private fun createShape(): GradientDrawable {
-        val gradientDrawable = GradientDrawable()
-        gradientDrawable.shape = GradientDrawable.RECTANGLE
-        if (roundedCorners) {
-            gradientDrawable.cornerRadius = radius
-        }
-        if (highlighted) {
-            gradientDrawable.setColor(primaryColor)
-        } else {
-            gradientDrawable.setStroke(convertDpToPx(strokeWidth).toInt(), primaryColor)
-        }
-        return gradientDrawable
     }
 
     private fun convertDpToPx(dp: Float): Float {
