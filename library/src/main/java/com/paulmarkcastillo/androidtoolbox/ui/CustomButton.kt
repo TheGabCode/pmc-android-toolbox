@@ -54,14 +54,10 @@ class CustomButton(context: Context, attrs: AttributeSet?) : MaterialButton(cont
 
             roundedCorners = getBoolean(R.styleable.CustomButton_roundedCorners, true)
 
-            if (roundedCorners) {
-                cornerRadius =
-                    getDimension(
-                        R.styleable.CustomButton_cornerRadius,
-                        convertDpToPx(8f)
-                    ).toInt()
+            cornerRadius = if (roundedCorners) {
+                getDimension(R.styleable.CustomButton_cornerRadius, convertDpToPx(8f)).toInt()
             } else {
-                cornerRadius = 0
+                0
             }
 
             if (highlighted) {
@@ -90,7 +86,7 @@ class CustomButton(context: Context, attrs: AttributeSet?) : MaterialButton(cont
             rightPadding =
                 getDimension(R.styleable.CustomButton_android_paddingRight, endPadding)
             topPadding =
-                getDimension(R.styleable.CustomButton_android_padding, 0f)
+                getDimension(R.styleable.CustomButton_android_paddingTop, 0f)
             bottomPadding =
                 getDimension(R.styleable.CustomButton_android_paddingBottom, 0f)
 
@@ -126,13 +122,18 @@ class CustomButton(context: Context, attrs: AttributeSet?) : MaterialButton(cont
             backgroundTintList = ColorStateList.valueOf(secondaryColor)
             val intPadding = padding.toInt()
             if (intPadding > 0) {
-                setPadding(intPadding, intPadding, intPadding, intPadding)
+                setPadding(
+                    paddingLeft + intPadding,
+                    paddingTop + intPadding,
+                    paddingRight + intPadding,
+                    paddingBottom + intPadding
+                )
             } else {
                 setPadding(
-                    leftPadding.toInt(),
-                    topPadding.toInt(),
-                    rightPadding.toInt(),
-                    bottomPadding.toInt()
+                    paddingLeft + leftPadding.toInt(),
+                    paddingTop + topPadding.toInt(),
+                    paddingRight + rightPadding.toInt(),
+                    paddingBottom + bottomPadding.toInt()
                 )
             }
         }
