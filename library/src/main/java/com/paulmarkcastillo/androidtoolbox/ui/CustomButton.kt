@@ -6,6 +6,7 @@ import android.content.res.ColorStateList
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.view.Gravity
 import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton
 import com.paulmarkcastillo.androidtoolbox.R
@@ -93,6 +94,7 @@ class CustomButton(context: Context, attrs: AttributeSet?) : MaterialButton(cont
             bottomPadding =
                 getDimension(R.styleable.CustomButton_android_paddingBottom, 0f)
 
+            gravity = getInt(R.styleable.CustomButton_android_gravity, Gravity.CENTER)
         }
 
         context.obtainStyledAttributes(attrs, intArrayOf(android.R.attr.textAllCaps)).apply {

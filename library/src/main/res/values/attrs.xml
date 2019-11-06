@@ -17,5 +17,6 @@
         <attr name="android:paddingTop" />
         <attr name="android:paddingBottom" />
         <attr name="android:padding"/>
+        <attr name="android:gravity"/>
     </declare-styleable>
 </resources>
