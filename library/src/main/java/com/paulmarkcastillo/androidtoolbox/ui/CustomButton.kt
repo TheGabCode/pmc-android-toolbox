@@ -2,21 +2,20 @@ package com.paulmarkcastillo.androidtoolbox.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
-import androidx.appcompat.widget.AppCompatButton
+import android.view.Gravity
 import androidx.core.content.ContextCompat
+import com.google.android.material.button.MaterialButton
 import com.paulmarkcastillo.androidtoolbox.R
 import com.paulmarkcastillo.androidtoolbox.converters.DisplayUnitConverter
 
 @SuppressLint("AppCompatCustomView")
-class CustomButton(context: Context, attrs: AttributeSet?) : AppCompatButton(context, attrs) {
+class CustomButton(context: Context, attrs: AttributeSet?) : MaterialButton(context, attrs) {
     private lateinit var mainTextPaint: Paint
     private lateinit var subTextPaint: Paint
-    private val strokeWidth = 2f
-    private var radius = 8f
     private var primaryColor = 0
     private var secondaryColor = 0
     private var highlighted: Boolean
@@ -24,6 +23,15 @@ class CustomButton(context: Context, attrs: AttributeSet?) : AppCompatButton(con
     private var subText: String?
     private var subTextSize = textSize
     private var subTextColor = 0
+
+    // Padding
+    private var leftPadding = 0f
+    private var rightPadding = 0f
+    private var topPadding = 0f
+    private var bottomPadding = 0f
+    private var padding = 0f
+    private var startPadding = 0f
+    private var endPadding = 0f
 
     init {
         context.theme.obtainStyledAttributes(
@@ -46,7 +54,11 @@ class CustomButton(context: Context, attrs: AttributeSet?) : AppCompatButton(con
 
             roundedCorners = getBoolean(R.styleable.CustomButton_roundedCorners, true)
 
-            radius = getDimension(R.styleable.CustomButton_cornerRadius, convertDpToPx(radius))
+            cornerRadius = if (roundedCorners) {
+                getDimension(R.styleable.CustomButton_cornerRadius, convertDpToPx(8f)).toInt()
+            } else {
+                0
+            }
 
             if (highlighted) {
                 setTextColor(secondaryColor)
@@ -61,7 +73,24 @@ class CustomButton(context: Context, attrs: AttributeSet?) : AppCompatButton(con
             subTextSize =
                 getDimension(R.styleable.CustomButton_subTextSize, (textSize * .72).toFloat())
 
+            icon = getDrawable(R.styleable.CustomButton_icon)
+            iconGravity = ICON_GRAVITY_TEXT_START
 
+            padding = getDimension(R.styleable.CustomButton_android_padding, 0f)
+            startPadding =
+                getDimension(R.styleable.CustomButton_android_paddingStart, 0f)
+            endPadding =
+                getDimension(R.styleable.CustomButton_android_paddingEnd, 0f)
+            leftPadding =
+                getDimension(R.styleable.CustomButton_android_paddingLeft, startPadding)
+            rightPadding =
+                getDimension(R.styleable.CustomButton_android_paddingRight, endPadding)
+            topPadding =
+                getDimension(R.styleable.CustomButton_android_paddingTop, 0f)
+            bottomPadding =
+                getDimension(R.styleable.CustomButton_android_paddingBottom, 0f)
+
+            gravity = getInt(R.styleable.CustomButton_android_gravity, Gravity.CENTER)
         }
 
         context.obtainStyledAttributes(attrs, intArrayOf(android.R.attr.textAllCaps)).apply {
@@ -84,7 +113,30 @@ class CustomButton(context: Context, attrs: AttributeSet?) : AppCompatButton(con
             subTextPaint.textAlign = Paint.Align.CENTER
             subTextPaint.isAntiAlias = true
         }
-        background = createShape()
+
+        if (highlighted) {
+            backgroundTintList = ColorStateList.valueOf(primaryColor)
+        } else {
+            strokeColor = ColorStateList.valueOf(primaryColor)
+            strokeWidth = 3
+            backgroundTintList = ColorStateList.valueOf(secondaryColor)
+            val intPadding = padding.toInt()
+            if (intPadding > 0) {
+                setPadding(
+                    paddingLeft + intPadding,
+                    paddingTop + intPadding,
+                    paddingRight + intPadding,
+                    paddingBottom + intPadding
+                )
+            } else {
+                setPadding(
+                    paddingLeft + leftPadding.toInt(),
+                    paddingTop + topPadding.toInt(),
+                    paddingRight + rightPadding.toInt(),
+                    paddingBottom + bottomPadding.toInt()
+                )
+            }
+        }
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -107,20 +159,6 @@ class CustomButton(context: Context, attrs: AttributeSet?) : AppCompatButton(con
         } else {
             super.onDraw(canvas)
         }
-    }
-
-    private fun createShape(): GradientDrawable {
-        val gradientDrawable = GradientDrawable()
-        gradientDrawable.shape = GradientDrawable.RECTANGLE
-        if (roundedCorners) {
-            gradientDrawable.cornerRadius = radius
-        }
-        if (highlighted) {
-            gradientDrawable.setColor(primaryColor)
-        } else {
-            gradientDrawable.setStroke(convertDpToPx(strokeWidth).toInt(), primaryColor)
-        }
-        return gradientDrawable
     }
 
     private fun convertDpToPx(dp: Float): Float {

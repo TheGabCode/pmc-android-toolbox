@@ -9,5 +9,14 @@
         <attr name="highlighted" format="boolean" />
         <attr name="roundedCorners" format="boolean" />
         <attr name="cornerRadius" format="dimension" />
+        <attr name="icon" format="reference" />
+        <attr name="android:paddingLeft" />
+        <attr name="android:paddingRight" />
+        <attr name="android:paddingStart" />
+        <attr name="android:paddingEnd" />
+        <attr name="android:paddingTop" />
+        <attr name="android:paddingBottom" />
+        <attr name="android:padding"/>
+        <attr name="android:gravity"/>
     </declare-styleable>
 </resources>
