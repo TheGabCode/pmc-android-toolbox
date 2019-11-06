@@ -23,6 +23,15 @@ class CustomButton(context: Context, attrs: AttributeSet?) : MaterialButton(cont
     private var subTextSize = textSize
     private var subTextColor = 0
 
+    // Padding
+    private var leftPadding = 0f
+    private var rightPadding = 0f
+    private var topPadding = 0f
+    private var bottomPadding = 0f
+    private var padding = 0f
+    private var startPadding = 0f
+    private var endPadding = 0f
+
     init {
         context.theme.obtainStyledAttributes(
             attrs,
@@ -69,6 +78,21 @@ class CustomButton(context: Context, attrs: AttributeSet?) : MaterialButton(cont
 
             icon = getDrawable(R.styleable.CustomButton_icon)
             iconGravity = ICON_GRAVITY_TEXT_START
+
+            padding = getDimension(R.styleable.CustomButton_android_padding, 0f)
+            startPadding =
+                getDimension(R.styleable.CustomButton_android_paddingStart, 0f)
+            endPadding =
+                getDimension(R.styleable.CustomButton_android_paddingEnd, 0f)
+            leftPadding =
+                getDimension(R.styleable.CustomButton_android_paddingLeft, startPadding)
+            rightPadding =
+                getDimension(R.styleable.CustomButton_android_paddingRight, endPadding)
+            topPadding =
+                getDimension(R.styleable.CustomButton_android_padding, 0f)
+            bottomPadding =
+                getDimension(R.styleable.CustomButton_android_paddingBottom, 0f)
+
         }
 
         context.obtainStyledAttributes(attrs, intArrayOf(android.R.attr.textAllCaps)).apply {
@@ -98,6 +122,17 @@ class CustomButton(context: Context, attrs: AttributeSet?) : MaterialButton(cont
             strokeColor = ColorStateList.valueOf(primaryColor)
             strokeWidth = 3
             backgroundTintList = ColorStateList.valueOf(secondaryColor)
+            val intPadding = padding.toInt()
+            if (intPadding > 0) {
+                setPadding(intPadding, intPadding, intPadding, intPadding)
+            } else {
+                setPadding(
+                    leftPadding.toInt(),
+                    topPadding.toInt(),
+                    rightPadding.toInt(),
+                    bottomPadding.toInt()
+                )
+            }
         }
     }
 
