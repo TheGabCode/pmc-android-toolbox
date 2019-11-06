@@ -46,7 +46,12 @@ class CustomButton(context: Context, attrs: AttributeSet?) : MaterialButton(cont
 
             if (roundedCorners) {
                 cornerRadius =
-                    getDimension(R.styleable.CustomButton_cornerRadius, 8f).toInt()
+                    getDimension(
+                        R.styleable.CustomButton_cornerRadius,
+                        convertDpToPx(8f)
+                    ).toInt()
+            } else {
+                cornerRadius = 0
             }
 
             if (highlighted) {
