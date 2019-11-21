@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/tools" android:ignore="NamespaceTypo">
     <declare-styleable name="CustomButton">
+        <attr name="strokeWidth" format="dimension" />
         <attr name="subText" format="string" />
         <attr name="subTextSize" format="dimension" />
         <attr name="subTextColor" format="color" />
