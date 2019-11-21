@@ -60,6 +60,9 @@ class CustomButton(context: Context, attrs: AttributeSet?) : MaterialButton(cont
                 0
             }
 
+            strokeWidth =
+                getDimension(R.styleable.CustomButton_strokeWidth, convertDpToPx(1.5f)).toInt()
+
             if (highlighted) {
                 setTextColor(secondaryColor)
             } else {
@@ -118,7 +121,6 @@ class CustomButton(context: Context, attrs: AttributeSet?) : MaterialButton(cont
             backgroundTintList = ColorStateList.valueOf(primaryColor)
         } else {
             strokeColor = ColorStateList.valueOf(primaryColor)
-            strokeWidth = 3
             backgroundTintList = ColorStateList.valueOf(secondaryColor)
             val intPadding = padding.toInt()
             if (intPadding > 0) {
