@@ -13,14 +13,13 @@ class CountingRequestBody(
     private val requestBody: RequestBody,
     private val listener: CountingRequestBodyProgressListener
 ) : RequestBody() {
-    private lateinit var countingSink: CountingSink
 
     override fun contentType(): MediaType? {
         return requestBody.contentType()
     }
 
     override fun writeTo(sink: BufferedSink) {
-        countingSink = CountingSink(sink)
+        val countingSink = CountingSink(sink)
         val bufferedSink = countingSink.buffer()
         requestBody.writeTo(bufferedSink)
         bufferedSink.flush()
