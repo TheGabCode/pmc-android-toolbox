@@ -29,9 +29,7 @@ class CountingRequestBody(
         return requestBody.contentLength()
     }
 
-    inner class CountingSink(
-        sink: Sink
-    ) : ForwardingSink(sink) {
+    inner class CountingSink(sink: Sink) : ForwardingSink(sink) {
         private var bytesWritten = 0L
 
         @Throws(IOException::class)
