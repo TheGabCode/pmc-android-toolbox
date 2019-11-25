@@ -115,9 +115,20 @@ class MediaUploader(
                      * server, we don't need to add headers.
                      */
                     val fileRequestBody = file.asRequestBody()
+                    val countingRequestBody = CountingRequestBody(
+                        fileRequestBody,
+                        object : CountingRequestBody.CountingRequestBodyProgressListener {
+                            override fun onProgressChanged(
+                                bytesWritten: Long,
+                                contentLength: Long
+                            ) {
+                                val percentage = 100f * bytesWritten / contentLength
+                                listener.onProgressChanged(percentage.toInt())
+                            }
+                        })
                     val requestBuilder = Request.Builder()
                         .url(preSignedCredentials.signedUrl)
-                        .method(PUT, fileRequestBody)
+                        .method(PUT, countingRequestBody)
 
                     val response = client.newCall(requestBuilder.build()).execute()
                     if (response.isSuccessful) {
