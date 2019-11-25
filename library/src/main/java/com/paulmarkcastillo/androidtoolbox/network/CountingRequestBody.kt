@@ -20,7 +20,7 @@ class CountingRequestBody(
     }
 
     override fun writeTo(sink: BufferedSink) {
-        countingSink = CountingSink(sink, listener)
+        countingSink = CountingSink(sink)
         val bufferedSink = countingSink.buffer()
         requestBody.writeTo(bufferedSink)
         bufferedSink.flush()
@@ -30,9 +30,8 @@ class CountingRequestBody(
         return requestBody.contentLength()
     }
 
-    class CountingSink(
-        sink: Sink,
-        private val listener: CountingRequestBodyProgressListener
+    inner class CountingSink(
+        sink: Sink
     ) : ForwardingSink(sink) {
         private var bytesWritten = 0L
 
@@ -40,7 +39,7 @@ class CountingRequestBody(
         override fun write(source: Buffer, byteCount: Long) {
             super.write(source, byteCount)
             bytesWritten += byteCount
-            listener.onProgressChanged(bytesWritten, source.size)
+            listener.onProgressChanged(bytesWritten, contentLength())
         }
     }
 
