@@ -122,8 +122,9 @@ class MediaUploader(
                                 bytesWritten: Long,
                                 contentLength: Long
                             ) {
-                                val percentage = 100f * bytesWritten / contentLength
-                                listener.onProgressChanged(percentage.toInt())
+                                val progress =
+                                    (((bytesWritten.toDouble() / contentLength) * 100.0).toInt())
+                                listener.onProgressChanged(progress)
                             }
                         })
                     val requestBuilder = Request.Builder()
