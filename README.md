@@ -28,8 +28,8 @@ A companion library containing common tools for Android development like: valida
     
     * `DateTimeHelper` - Get current date time in UTC and local timezone
     * `DateTimeExtension` - Date time timezone converter (e.g UTC to GMT+8, etc)
-
-** __Network__.
+    
+* __Network Tools__.
 
    * `MediaUploader` - Uploads files to an S3 bucket. 
    * `CountingRequestBody` - Wraps Okhttp's RequestBody that supports a listener for tracking upload progress.
