@@ -19,10 +19,6 @@ A companion library containing common tools for Android development like: valida
     * `LengthConverter` - Inch, Feet, Cm
     * `WeightConverter` - Lb, Kg
 
-* __Checkers__.
-
-    * `InternetChecker` - Checks if there's an internet connection
-
 * __LiveData Tools__.
 
     * `Event` - From [Here](https://github.com/google/iosched/blob/master/shared/src/main/java/com/google/samples/apps/iosched/shared/result/Event.kt)
@@ -33,7 +29,12 @@ A companion library containing common tools for Android development like: valida
     * `DateTimeHelper` - Get current date time in UTC and local timezone
     * `DateTimeExtension` - Date time timezone converter (e.g UTC to GMT+8, etc)
 
+** __Network__.
 
+   * `MediaUploader` - Uploads files to an S3 bucket. 
+   * `CountingRequestBody` - Wraps Okhttp's RequestBody that supports a listener for tracking upload progress.
+   * `InternetChecker` - Checks if there's an internet connection
+   
 ## License
 
 ```
