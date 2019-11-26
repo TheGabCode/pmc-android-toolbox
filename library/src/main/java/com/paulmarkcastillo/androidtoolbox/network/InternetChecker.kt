@@ -1,7 +1,11 @@
-package com.paulmarkcastillo.androidtoolbox.checkers
+package com.paulmarkcastillo.androidtoolbox.network
 
 import android.net.TrafficStats
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.Dispatchers
 import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.Socket
