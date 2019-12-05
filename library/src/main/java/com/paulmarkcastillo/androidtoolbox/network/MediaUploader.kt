@@ -9,18 +9,14 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
 import com.amazonaws.regions.Region
 import com.amazonaws.services.s3.AmazonS3Client
 import com.paulmarkcastillo.androidlogger.PMCLogger
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.io.File
-import java.util.UUID
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class MediaUploader(
@@ -48,7 +44,7 @@ class MediaUploader(
         private const val TOKEN_FORMAT = "Bearer %s"
         private const val DESTINATION_URL = "destinationUrl"
         private const val SIGNED_URL = "signedUrl"
-        private const val LOG = "MediaUploader"
+        private const val TAG = "MediaUploader"
     }
 
     fun upload(file: File, listener: MediaUploadListener) {
@@ -69,7 +65,7 @@ class MediaUploader(
                 exception?.let { transferException ->
                     transferException.printStackTrace()
                     listener.onError(transferException)
-                    PMCLogger.e(LOG, "onError: ${transferException.localizedMessage}")
+                    PMCLogger.e(TAG, "onError: ${transferException.localizedMessage}")
                 }
             }
 
@@ -88,7 +84,7 @@ class MediaUploader(
                     else -> {
                     }
                 }
-                PMCLogger.d(LOG, "onStateChanged: State - ${state?.name}")
+                PMCLogger.d(TAG, "onStateChanged: State - ${state?.name}")
             }
         })
     }
@@ -105,7 +101,7 @@ class MediaUploader(
                     val preSignedCredentials = getPreSignedCredentials()
                     if (preSignedCredentials.signedUrl.isEmpty()) {
                         listener.onError(Exception("No pre signed url provided."))
-                        PMCLogger.e(LOG, "No pre signed credentials fetched")
+                        PMCLogger.e(TAG, "No pre signed credentials fetched")
                         cancel()
                     }
 
@@ -133,11 +129,11 @@ class MediaUploader(
                     val response = client.newCall(requestBuilder.build()).execute()
                     if (response.isSuccessful) {
                         listener.onTransferCompleted(preSignedCredentials.objectUrl)
-                        PMCLogger.d(LOG, "Upload with preSignedUrl - Successful")
+                        PMCLogger.d(TAG, "Upload with preSignedUrl - Successful")
                     } else {
                         response.run {
                             listener.onError(Exception(message))
-                            PMCLogger.e(LOG, "Status Code: $code Message: $message")
+                            PMCLogger.e(TAG, "Status Code: $code Message: $message")
                             cancel()
                         }
                     }
@@ -145,7 +141,7 @@ class MediaUploader(
                     exception.printStackTrace()
                     listener.onError(exception)
                     PMCLogger.e(
-                        LOG,
+                        TAG,
                         "Upload with preSignedUrl - Exception: ${exception.localizedMessage}"
                     )
                     cancel()

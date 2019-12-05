@@ -34,7 +34,12 @@ A companion library containing common tools for Android development like: valida
    * `MediaUploader` - Uploads files to an S3 bucket. 
    * `CountingRequestBody` - Wraps Okhttp's RequestBody that supports a listener for tracking upload progress.
    * `InternetChecker` - Checks if there's an internet connection
-   
+
+* __OOB Tools__.
+
+   * `OBBChecker` - Checks if there's accompanied OBB.
+
+
 ## License
 
 ```
