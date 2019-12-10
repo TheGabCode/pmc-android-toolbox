@@ -36,7 +36,7 @@ dependencies {
     implementation "com.github.sgaikar1:ValidationUtilsLibrary:1.0.2"
     implementation "com.squareup.okhttp3:okhttp:4.2.2"
     implementation "com.google.android.material:material:1.0.0"
-    implementation "com.github.thegabcode:pmc-android-logger:db9df33"
+    implementation "com.github.thegabcode:pmc-android-logger:0534199"
     implementation "com.amazonaws:aws-android-sdk-s3:2.16.3"
     implementation "com.amazonaws:aws-android-sdk-mobile-client:2.16.3"
 
