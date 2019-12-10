@@ -9,14 +9,18 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
 import com.amazonaws.regions.Region
 import com.amazonaws.services.s3.AmazonS3Client
 import com.paulmarkcastillo.androidlogger.PMCLogger
-import kotlinx.coroutines.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.cancel
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.io.File
-import java.util.*
+import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 class MediaUploader(
@@ -26,13 +30,18 @@ class MediaUploader(
     private val s3AccessKey: String = "",
     private val s3SecretKey: String = "",
     private val region: String = "",
-    private val bucket: String = ""
+    private val bucket: String = "",
+    private var debugMode: Boolean = false
 ) {
     private val client = OkHttpClient.Builder()
         .connectTimeout(20, TimeUnit.SECONDS)
         .writeTimeout(0, TimeUnit.SECONDS)
         .readTimeout(5, TimeUnit.MINUTES)
         .build()
+
+    init {
+        PMCLogger.enabled = debugMode
+    }
 
     companion object {
         private const val OBJECT_URL = "https://%s.s3.%s.amazonaws.com/%s"
